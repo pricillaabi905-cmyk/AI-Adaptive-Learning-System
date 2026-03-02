@@ -1,0 +1,478 @@
+{
+  "name": "main project",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 0 9 * * *"
+            },
+            {
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -1072,
+        -192
+      ],
+      "id": "14faed21-98c1-40b2-b832-db5669a1ed78",
+      "name": "Schedule Trigger",
+      "notes": "Mode → Every Day\nTime → 9:00 AM\n"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1viqY78ze70fD_2rj1EN7Gwc76ek1ArncUQJPXxzSqNc",
+          "mode": "list",
+          "cachedResultName": "student-assessment",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1viqY78ze70fD_2rj1EN7Gwc76ek1ArncUQJPXxzSqNc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "STUDENTS TABLE",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1viqY78ze70fD_2rj1EN7Gwc76ek1ArncUQJPXxzSqNc/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -912,
+        -192
+      ],
+      "id": "3d14b72e-122f-416b-b843-2d930105b903",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "4vE63Z2S5y2qEojR",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1viqY78ze70fD_2rj1EN7Gwc76ek1ArncUQJPXxzSqNc",
+          "mode": "list",
+          "cachedResultName": "student-assessment",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1viqY78ze70fD_2rj1EN7Gwc76ek1ArncUQJPXxzSqNc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1280196261,
+          "mode": "list",
+          "cachedResultName": "ASSESSMENT RESULTS TABLE",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1viqY78ze70fD_2rj1EN7Gwc76ek1ArncUQJPXxzSqNc/edit#gid=1280196261"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -736,
+        -16
+      ],
+      "id": "ad28934a-ab14-47dd-8de9-33cb7982ad38",
+      "name": "Get row(s) in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "4vE63Z2S5y2qEojR",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1viqY78ze70fD_2rj1EN7Gwc76ek1ArncUQJPXxzSqNc",
+          "mode": "list",
+          "cachedResultName": "student-assessment",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1viqY78ze70fD_2rj1EN7Gwc76ek1ArncUQJPXxzSqNc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 620792598,
+          "mode": "list",
+          "cachedResultName": "LEARNING RESOURCES TABLE",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1viqY78ze70fD_2rj1EN7Gwc76ek1ArncUQJPXxzSqNc/edit#gid=620792598"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -512,
+        0
+      ],
+      "id": "00fb1a56-cc75-4b5a-9aa8-2c2710356118",
+      "name": "Get row(s) in sheet2",
+      "executeOnce": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "4vE63Z2S5y2qEojR",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "fieldsToMatchString": "student_id",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -688,
+        -176
+      ],
+      "id": "5b6f031e-ec2b-497e-82b8-f2b7745be377",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "jsCode": "const weak = [];\n\nfor (const item of items) {\n  if (item.json.score < 50) {\n    weak.push(item.json);\n  }\n}\n\nreturn weak.map(w => ({ json: w }));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -496,
+        -176
+      ],
+      "id": "8ef03f67-3312-4ba8-91b6-d9043b91ac90",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "fieldsToMatchString": "topic",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -272,
+        -160
+      ],
+      "id": "d24d53e6-0c3b-4caa-b2b0-d168f7901208",
+      "name": "Merge1"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{$json[\"email\"]}}",
+        "subject": "Your Personalized Learning Plan",
+        "message": "=Hello {{$json[\"name\"]}},  We noticed you may need support with:  📌 Topic: {{$json[\"topic\"]}}  Here are recommended resources:  🎥 Video: {{$json[\"video_url\"]}} 📖 Article: {{$json[\"article_url\"]}} 📝 Quiz: {{$json[\"quiz_link\"]}}  Stay consistent — mastery is built one concept at a time.  Best regards, AI Learning Assistant",
+        "options": {
+          "senderName": ""
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        112,
+        -160
+      ],
+      "id": "dd03dd5a-3f99-4f01-925a-620ba92f14ab",
+      "name": "Send a message",
+      "webhookId": "aaebec32-b515-43a4-b919-3edc01dac2c7",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "DbSF0z3IMcRBHiyr",
+          "name": "Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1viqY78ze70fD_2rj1EN7Gwc76ek1ArncUQJPXxzSqNc",
+          "mode": "list",
+          "cachedResultName": "student-assessment",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1viqY78ze70fD_2rj1EN7Gwc76ek1ArncUQJPXxzSqNc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 616981075,
+          "mode": "list",
+          "cachedResultName": "WEEKLY PROGRESS TABLE",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1viqY78ze70fD_2rj1EN7Gwc76ek1ArncUQJPXxzSqNc/edit#gid=616981075"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -1104,
+        48
+      ],
+      "id": "6d7831aa-e32f-4670-9bbf-48c7d0c442ac",
+      "name": "Get row(s) in sheet3",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "4vE63Z2S5y2qEojR",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "let recommendation;\n\nif ($json.quiz_score > 80) {\n  recommendation = \"Increase difficulty\";\n} else if ($json.quiz_score < 50) {\n  recommendation = \"Reduce difficulty\";\n} else {\n  recommendation = \"Maintain level\";\n}\n\nreturn [{ json: { ...$json, recommendation } }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -432,
+        240
+      ],
+      "id": "2f9cdcf2-5a98-4924-8c00-7f78aa23a90a",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "fieldsToMatchString": "student_id",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -768,
+        288
+      ],
+      "id": "55bc2000-a00a-4485-869e-802b419d024d",
+      "name": "Merge2"
+    },
+    {
+      "parameters": {
+        "sendTo": "=\n{{ $json.email }}\n",
+        "subject": "Your Weekly Learning Progress",
+        "message": "=Hello {{$json[\"name\"]}},  Here is your weekly progress update:  📘 Module: {{$json[\"module\"]}} 📊 Score: {{$json[\"quiz_score\"]}}  🎯 Recommendation: {{$json[\"recommendation\"]}}  Keep going — consistent effort leads to mastery.  Best regards, AI Learning Assistant",
+        "options": {
+          "senderName": "=Hello {{$json[\"name\"]}},  Here is your weekly progress update:  📘 Module: {{$json[\"module\"]}} 📊 Score: {{$json[\"quiz_score\"]}}  🎯 Recommendation: {{$json[\"recommendation\"]}}  Keep going — consistent effort leads to mastery.  Best regards, AI Learning Assistant"
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        48,
+        96
+      ],
+      "id": "d898b282-f4d2-4d7d-9873-6f025639d9d6",
+      "name": "Send a message1",
+      "webhookId": "aaebec32-b515-43a4-b919-3edc01dac2c7",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "DbSF0z3IMcRBHiyr",
+          "name": "Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        -224,
+        240
+      ],
+      "id": "bae074f0-6c11-4f77-aaf4-17d8a08dbc98",
+      "name": "Limit"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        -64,
+        -144
+      ],
+      "id": "56869da3-3a71-4689-8484-dd7341f0b85f",
+      "name": "Limit1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get row(s) in sheet3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet2": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get row(s) in sheet2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "Limit1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet3": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge2": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit1": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "98456c8d-849d-4f57-996d-ab2c7c072030",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "a6179bf6d921b5b0c5e76210aa2dc538ad7bef48b33ccd04d4d5781e343531f8"
+  },
+  "id": "iTEcg0YlyRowBh_JzOkfW",
+  "tags": []
+}
