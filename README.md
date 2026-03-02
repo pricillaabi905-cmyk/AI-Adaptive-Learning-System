@@ -27,7 +27,8 @@ This project is an AI-driven adaptive learning system that personalizes educatio
 7. Adjust difficulty
 
 ## 📷 Screenshots
-![Workflow][AI-Powered Adaptive Learning Path Generator.pdf](https://github.com/user-attachments/files/25396167/AI-Powered.Adaptive.Learning.Path.Generator.pdf)
+![Workflow]<img width="1600" height="589" alt="image" src="https://github.com/user-attachments/assets/3bde6dd8-4dfb-48ce-b452-11b3a4476e13" />
+[AI-Powered Adaptive Learning Path Generator.pdf](https://github.com/user-attachments/files/25396167/AI-Powered.Adaptive.Learning.Path.Generator.pdf)
 
 
 ## ⚙️ Setup Instructions
